@@ -1,0 +1,45 @@
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        // If the grid is empty, return 0 islands
+        if (grid.empty()) return 0;
+
+        int numIslands = 0;                // To count the number of islands
+        int m = grid.size();               // Number of rows
+        int n = grid[0].size();            // Number of columns
+
+        // Traverse the entire grid
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                // If we find a '1' (land), it is a new island
+                if (grid[i][j] == '1') {
+                    ++numIslands;          // Increase the island count
+                    dfs(grid, i, j);       // Mark the whole island as visited
+                }
+            }
+        }
+
+        return numIslands;
+    }
+
+private:
+    // Helper function to perform DFS and mark connected land as visited
+    void dfs(vector<vector<char>>& grid, int i, int j) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        // Base cases: out of bounds or current cell is water
+        if (i < 0 || j < 0 || i >= m || j >= n || grid[i][j] == '0') {
+            return;
+        }
+
+        // Mark the current land cell as visited by setting it to '0'
+        grid[i][j] = '0';
+
+        // Visit all 4 adjacent cells (up, down, left, right)
+        dfs(grid, i - 1, j); // up
+        dfs(grid, i + 1, j); // down
+        dfs(grid, i, j - 1); // left
+        dfs(grid, i, j + 1); // right
+    }
+};
